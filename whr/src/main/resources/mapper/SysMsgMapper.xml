@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.whr.dao.SysMsgMapper">
+    <resultMap id="BaseResultMap" type="com.example.whr.entity.SysMsg">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="mid" property="mid" jdbcType="BIGINT"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="hrid" property="hrid" jdbcType="BIGINT"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <association property="msgContent" javaType="com.example.whr.entity.MsgContent">
+            <id column="mcid" property="id" jdbcType="BIGINT"/>
+            <result column="message" property="message" jdbcType="VARCHAR"/>
+            <result column="title" property="title" jdbcType="VARCHAR"/>
+            <result column="createDate" property="createDate" jdbcType="TIMESTAMP"/>
+        </association>
+    </resultMap>
+    <insert id="sendMsg" useGeneratedKeys="true" parameterType="com.example.whr.entity.MsgContent" keyProperty="id">
+        insert into msgcontent(message,title) values(#{message},#{title})
+    </insert>
+
+    <insert id="addMsg2AllHR">
+        insert into sysmsg(mid,hrid) values
+        <foreach collection="hrs" separator="," item="hr">
+            (#{mid},#{hr.id})
+        </foreach>
+    </insert>
+
+    <select id="getSysMsg" resultMap="BaseResultMap">
+        SELECT DISTINCT
+            s.*,c.id as mcid, c.message,c.title,c.createDate
+        FROM
+            sysmsg s JOIN msgcontent c ON s.mid = c.id
+        WHERE
+            hrid = #{hrid}
+        order by c.createDate desc
+        limit #{start},#{size}
+    </select>
+
+    <update id="markRead">
+        update sysmsg
+        set state = 1
+        where hrid = #{hrid}
+        <if test="flag!=-1">
+            and mid = #{flag}
+        </if>
+    </update>
+</mapper>

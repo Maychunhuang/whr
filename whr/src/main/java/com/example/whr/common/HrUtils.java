@@ -1,6 +1,6 @@
 package com.example.whr.common;
 
-import com.example.whr.entity.Hr;
+import com.example.whr.bean.Hr;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class HrUtils {

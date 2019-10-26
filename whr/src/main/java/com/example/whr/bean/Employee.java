@@ -1,4 +1,4 @@
-package com.example.whr.entity;
+package com.example.whr.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

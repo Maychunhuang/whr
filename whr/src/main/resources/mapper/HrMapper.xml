@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.whr.dao.HrMapper">
-    <resultMap id="BaseResultMap" type="com.example.whr.entity.Hr">
+    <resultMap id="BaseResultMap" type="com.example.whr.bean.Hr">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="phone" property="phone"/>
@@ -15,12 +15,12 @@
         <result column="userface" property="userface"/>
         <result column="remark" property="remark"/>
     </resultMap>
-    <resultMap id="lazyLoadRoles" type="com.example.whr.entity.Hr" extends="BaseResultMap">
+    <resultMap id="lazyLoadRoles" type="com.example.whr.bean.Hr" extends="BaseResultMap">
         <collection property="roles" ofType="org.sang.bean.Role" select="com.example.whr.dao.HrMapper.getRolesByHrId"
                     column="id"></collection>
     </resultMap>
-    <resultMap id="eagerLoadRoles" type="com.example.whr.entity.Hr" extends="BaseResultMap">
-        <collection property="roles" ofType="com.example.whr.entity.Role">
+    <resultMap id="eagerLoadRoles" type="com.example.whr.bean.Hr" extends="BaseResultMap">
+        <collection property="roles" ofType="com.example.whr.bean.Role">
             <id property="id" column="rid"/>
             <result property="name" column="rname"/>
             <result property="nameZh" column="rnameZh"/>
@@ -29,7 +29,7 @@
     <select id="loadUserByUsername" resultMap="lazyLoadRoles">
         select * from hr WHERE username=#{username};
     </select>
-    <select id="getRolesByHrId" resultType="com.example.whr.entity.Role">
+    <select id="getRolesByHrId" resultType="com.example.whr.bean.Role">
         SELECT r.* FROM hr_role h,role r where h.rid=r.id AND h.hrid=#{id}
     </select>
 
@@ -57,7 +57,7 @@
         limit 10
     </select>
 
-    <update id="updateHr" parameterType="com.example.whr.entity.Hr">
+    <update id="updateHr" parameterType="com.example.whr.bean.Hr">
         update hr
         <set>
             <if test="name != null">
@@ -118,7 +118,7 @@
         delete from hr wher id = #{hrId}
     </delete>
 
-    <select id="getAllHr" resultType="com.example.whr.entity.Hr">
+    <select id="getAllHr" resultType="com.example.whr.bean.Hr">
         select *
         from hr
         <if test="currentId != null">

@@ -6,17 +6,19 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
 /**
- * WebSocket 消息处理类
+ * WebSocket 消息处理类  在线聊天
  *
  * @author huangchunmei
  * @create 2019/9/13 16:53
  */
 @Controller
 public class WsController {
+    //简单消息模板
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
@@ -32,6 +34,5 @@ public class WsController {
     public String handleNF() {
         return "系统消息";
     }
-
 
 }

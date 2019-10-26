@@ -1,6 +1,6 @@
 package com.example.whr.dao;
 
-import com.example.whr.entity.Department;
+import com.example.whr.bean.Department;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -22,4 +22,16 @@ public interface DepartmentMapper {
      * @param dept
      */
      void addDep(@Param("dept") Department dept);
+
+    /**
+     * 用存储过程
+     * @param dept
+     */
+     void deleteDep(@Param("dept") Department dept);
+
+    /**
+     * 获取所有部门
+     * @return
+     */
+     List<Department> getAllDeps();
 }

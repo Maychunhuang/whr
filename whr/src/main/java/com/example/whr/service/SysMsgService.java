@@ -2,9 +2,9 @@ package com.example.whr.service;
 
 import com.example.whr.common.HrUtils;
 import com.example.whr.dao.SysMsgMapper;
-import com.example.whr.entity.Hr;
-import com.example.whr.entity.MsgContent;
-import com.example.whr.entity.SysMsg;
+import com.example.whr.bean.Hr;
+import com.example.whr.bean.MsgContent;
+import com.example.whr.bean.SysMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;

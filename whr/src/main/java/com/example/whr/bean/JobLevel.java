@@ -1,4 +1,4 @@
-package com.example.whr.entity;
+package com.example.whr.bean;
 
 import java.sql.Timestamp;
 

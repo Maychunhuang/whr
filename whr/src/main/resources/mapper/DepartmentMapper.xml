@@ -3,15 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.whr.dao.DepartmentMapper">
-    <resultMap id="BaseResultMap" type="com.example.whr.entity.Menu">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="parentId" property="parentId" />
-        <result column="isParent" property="isParent" />
-        <result column="name" property="name" />
-        <result column="iconCls" property="iconCls" />
-        <result column="keepAlive" property="keepAlive" />
-        <result column="parentId" property="parentId" />
+    <resultMap id="BaseResultMap" type="com.example.whr.bean.Menu">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parentId" property="parentId"/>
+        <result column="isParent" property="isParent"/>
+        <result column="name" property="name"/>
+        <result column="iconCls" property="iconCls"/>
+        <result column="keepAlive" property="keepAlive"/>
+        <result column="parentId" property="parentId"/>
         <collection property="children" ofType="com.example.whr.dao.DepartmentMapper" select="getDepByPid" column="id">
         </collection>
     </resultMap>
@@ -21,9 +21,13 @@
 
     <select id="addDep" statementType="CALLABLE">
         call
-        addDep(
-        #{dep.name,mode=IN,jdbcType=VARCHAR},#{dep.parentId,mode=IN,jdbcType=INTEGER},
-        #{dep.enabled,mode=IN,jdbcType=BOOLEAN},#{dep.result,mode=OUT,jdbcType=INTEGER},
-        #{dep.id,mode=OUT,jdbcType=BIGINT})
+        PRO_ADD_DEPT(
+        #{dept.name,mode=IN,jdbcType=VARCHAR},#{dept.parentId,mode=IN,jdbcType=INTEGER},
+        #{dept.enabled,mode=IN,jdbcType=BOOLEAN},#{dept.result,mode=OUT,jdbcType=INTEGER},
+        #{dept.id,mode=OUT,jdbcType=BIGINT})
     </select>
+
+    <delete id="deleteDep">
+        call PRO_DEL_DEPT(#{dept.id,mode=IN,jdbcType=INTEGER},#{dept.result,mode=out,jdbcType=INTEGER})
+    </delete>
 </mapper>

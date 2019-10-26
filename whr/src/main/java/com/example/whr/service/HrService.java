@@ -2,7 +2,7 @@ package com.example.whr.service;
 
 import com.example.whr.common.HrUtils;
 import com.example.whr.dao.HrMapper;
-import com.example.whr.entity.Hr;
+import com.example.whr.bean.Hr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

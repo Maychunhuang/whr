@@ -2,7 +2,7 @@ package com.example.whr.service;
 
 import com.example.whr.common.HrUtils;
 import com.example.whr.dao.MenuMapper;
-import com.example.whr.entity.Menu;
+import com.example.whr.bean.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

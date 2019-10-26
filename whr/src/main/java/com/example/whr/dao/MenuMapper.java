@@ -1,6 +1,6 @@
 package com.example.whr.dao;
 
-import com.example.whr.entity.Menu;
+import com.example.whr.bean.Menu;
 
 import java.util.List;
 

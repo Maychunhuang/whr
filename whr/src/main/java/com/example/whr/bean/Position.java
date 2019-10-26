@@ -1,17 +1,16 @@
-package com.example.whr.entity;
+package com.example.whr.bean;
+
+import java.sql.Timestamp;
 
 /**
- * Created by sang on 2018/1/12.
+ * Created by sang on 2018/1/10.
  */
-public class Nation {
+public class Position {
     private Long id;
     private String name;
+    private Timestamp createDate;
 
-    public Nation(String name) {
-        this.name = name;
-    }
-
-    public Nation() {
+    public Position() {
     }
 
     @Override
@@ -19,14 +18,19 @@ public class Nation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Nation nation = (Nation) o;
+        Position position = (Position) o;
 
-        return name != null ? name.equals(nation.name) : nation.name == null;
+        return name != null ? name.equals(position.name) : position.name == null;
     }
 
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
+    }
+
+    public Position(String name) {
+
+        this.name = name;
     }
 
     public Long getId() {
@@ -43,5 +47,13 @@ public class Nation {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
     }
 }

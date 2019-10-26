@@ -1,9 +1,9 @@
 package com.example.whr.controller;
 
 import com.example.whr.bean.RespBean;
-import com.example.whr.entity.Hr;
-import com.example.whr.entity.MsgContent;
-import com.example.whr.entity.SysMsg;
+import com.example.whr.bean.Hr;
+import com.example.whr.bean.MsgContent;
+import com.example.whr.bean.SysMsg;
 import com.example.whr.service.HrService;
 import com.example.whr.service.SysMsgService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class ChatController {
     }
 
     /**
-     * 发送消息
+     * 系统管理员发送消息
      *
      * @param msg
      * @return

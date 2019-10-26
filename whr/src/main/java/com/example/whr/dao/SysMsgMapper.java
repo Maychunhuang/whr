@@ -1,8 +1,8 @@
 package com.example.whr.dao;
 
-import com.example.whr.entity.Hr;
-import com.example.whr.entity.MsgContent;
-import com.example.whr.entity.SysMsg;
+import com.example.whr.bean.Hr;
+import com.example.whr.bean.MsgContent;
+import com.example.whr.bean.SysMsg;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

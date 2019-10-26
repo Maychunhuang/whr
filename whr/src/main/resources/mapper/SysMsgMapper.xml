@@ -3,20 +3,20 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.whr.dao.SysMsgMapper">
-    <resultMap id="BaseResultMap" type="com.example.whr.entity.SysMsg">
+    <resultMap id="BaseResultMap" type="com.example.whr.bean.SysMsg">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="mid" property="mid" jdbcType="BIGINT"/>
         <result column="type" property="type" jdbcType="INTEGER"/>
         <result column="hrid" property="hrid" jdbcType="BIGINT"/>
         <result column="state" property="state" jdbcType="INTEGER"/>
-        <association property="msgContent" javaType="com.example.whr.entity.MsgContent">
+        <association property="msgContent" javaType="com.example.whr.bean.MsgContent">
             <id column="mcid" property="id" jdbcType="BIGINT"/>
             <result column="message" property="message" jdbcType="VARCHAR"/>
             <result column="title" property="title" jdbcType="VARCHAR"/>
             <result column="createDate" property="createDate" jdbcType="TIMESTAMP"/>
         </association>
     </resultMap>
-    <insert id="sendMsg" useGeneratedKeys="true" parameterType="com.example.whr.entity.MsgContent" keyProperty="id">
+    <insert id="sendMsg" useGeneratedKeys="true" parameterType="com.example.whr.bean.MsgContent" keyProperty="id">
         insert into msgcontent(message,title) values(#{message},#{title})
     </insert>
 

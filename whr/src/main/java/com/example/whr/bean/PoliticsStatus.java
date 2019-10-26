@@ -1,4 +1,4 @@
-package com.example.whr.entity;
+package com.example.whr.bean;
 
 /**
  * Created by sang on 2018/1/13.

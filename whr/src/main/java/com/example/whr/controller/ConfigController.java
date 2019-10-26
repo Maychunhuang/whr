@@ -1,8 +1,8 @@
 package com.example.whr.controller;
 
 import com.example.whr.common.HrUtils;
-import com.example.whr.entity.Hr;
-import com.example.whr.entity.Menu;
+import com.example.whr.bean.Hr;
+import com.example.whr.bean.Menu;
 import com.example.whr.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

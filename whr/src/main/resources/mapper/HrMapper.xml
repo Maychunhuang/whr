@@ -16,7 +16,9 @@
         <result column="remark" property="remark"/>
     </resultMap>
     <resultMap id="lazyLoadRoles" type="com.example.whr.bean.Hr" extends="BaseResultMap">
-        <collection property="roles" ofType="org.sang.bean.Role" select="com.example.whr.dao.HrMapper.getRolesByHrId"
+        <!--    嵌套查询    -->
+        <collection property="roles" ofType="com.example.whr.bean.Role"
+                    select="com.example.whr.dao.HrMapper.getRolesByHrId"
                     column="id"></collection>
     </resultMap>
     <resultMap id="eagerLoadRoles" type="com.example.whr.bean.Hr" extends="BaseResultMap">
@@ -40,16 +42,16 @@
 
     <select id="getHrsByKeywords" resultMap="eagerLoadRoles">
         SELECT
-            h.*,
-            r.id,
-            r.NAME,
-            r.nameZh
+        h.*,
+        r.id,
+        r.NAME,
+        r.nameZh
         FROM
-            hr h
-            LEFT JOIN hr_role hr ON h.id = hr.hrid
-            LEFT JOIN role r ON hr.rid = r.id
+        hr h
+        LEFT JOIN hr_role hr ON h.id = hr.hrid
+        LEFT JOIN role r ON hr.rid = r.id
         WHERE
-            h.id NOT IN ( SELECT hr.hrid FROM hr_role hr JOIN role r ON hr.rid = r.id WHERE r.nameZh = '系统管理员' )
+        h.id NOT IN ( SELECT hr.hrid FROM hr_role hr JOIN role r ON hr.rid = r.id WHERE r.nameZh = '系统管理员' )
         <if test="keywords != 'all' and keywords != ''">
             AND h.NAME LIKE concat('%',#{keywords},'%')
         </if>
@@ -105,7 +107,7 @@
             (#{hrId},#{rid})
         </foreach>
     </insert>
-    
+
     <select id="getHrById" parameterType="Long" resultMap="eagerLoadRoles">
         select h.*,r.id as rid,r.name as rname,r.nameZh as rnameZh
         from

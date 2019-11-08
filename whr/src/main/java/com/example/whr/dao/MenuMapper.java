@@ -23,4 +23,12 @@ public interface MenuMapper {
      * @return
      */
     List<Menu> getMenusByHrId(Long hrId);
+
+    /**
+     * 菜单树
+     * @return
+     */
+    List<Menu> menuTree();
+
+    List<Long> getMenusByRid(Long rid);
 }

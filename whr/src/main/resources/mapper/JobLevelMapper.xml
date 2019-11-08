@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.whr.dao.JobLevelMapper">
+    <select id="getJobLevelByName" parameterType="String" resultType="com.example.whr.bean.JobLevel">
+        select id,name,titleLevel,createDate,enabled
+        from joblevel
+        where name = #{name}
+    </select>
+
+    <insert id="addJobLevel">
+        insert into joblevel
+        set name = #{jobLevel.name},titleLevel = #{jobLevel.titleLevel}
+    </insert>
+
+    <select id="getAllJobLevels" resultType="com.example.whr.bean.JobLevel">
+        select  *
+        from joblevel
+        where enabled = true
+    </select>
+
+    <delete id="deleteJobLevelById">
+        delete from joblevel
+        where id in
+        <foreach collection="ids" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateJobLevel">
+        update joblevel
+        <set>
+            <if test="jobLevel.name ！= null and jobLevel.name != ''">
+                name = #{jobLevel.name}
+            </if>
+            <if test="jobLevel.titleLevel != null and jobLevel.titleLevel != ''">
+                titleLevel = #{jobLevel.titleLevel}
+            </if>
+        </set>
+        where id = #{jobLevel.id}
+    </update>
+</mapper>

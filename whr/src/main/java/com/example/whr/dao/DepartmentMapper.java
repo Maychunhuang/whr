@@ -15,7 +15,7 @@ public interface DepartmentMapper {
      * @param pid
      * @return
      */
-     List<Department> getDepByPid(Long pid);
+     List<Department> getDepByPid(@Param("pid") Long pid);
 
     /**
      * 添加部门

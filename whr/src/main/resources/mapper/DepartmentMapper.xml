@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.whr.dao.DepartmentMapper">
-    <resultMap id="BaseResultMap" type="com.example.whr.bean.Menu">
+    <resultMap id="BaseResultMap" type="com.example.whr.bean.Department">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="parentId" property="parentId"/>
@@ -17,7 +17,7 @@
         </collection>
     </resultMap>
     <select id="getDepByPid" resultMap="BaseResultMap">
-          select * from department d where d.parentId = #{pid} and d.enable = true
+          select * from department d where d.parentId = #{pid} and d.enabled = true
     </select>
 
     <!--  statementType调用表示这是一个存储过程  -->
@@ -30,7 +30,7 @@
     </select>
 
     <delete id="deleteDep" statementType="CALLABLE">
-        call PRO_DEL_DEPT(#{dept.id,mode=IN,jdbcType=INTEGER},#{dept.result,mode=out,jdbcType=INTEGER})
+        call PRO_DEL_DEPT(#{dept.id,mode=IN,jdbcType=INTEGER},#{dept.result,mode=OUT,jdbcType=INTEGER})
     </delete>
 
     <select id="getAllDeps" resultType="com.example.whr.bean.Department">

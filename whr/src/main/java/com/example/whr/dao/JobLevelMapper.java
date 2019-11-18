@@ -10,7 +10,7 @@ public interface JobLevelMapper {
 
     int addJobLevel(@Param("jobLevel") JobLevel jobLevel);
 
-    List<JobLevel> getAllJobLevel();
+    List<JobLevel> getAllJobLevels();
 
     int deleteJobLevelById(@Param("ids") String[] ids);
 

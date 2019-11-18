@@ -22,9 +22,18 @@ public class MenuService {
     }
 
     /**
+     * 获取当前用户的菜单
      * @return
      */
     public List<Menu> getMenusByHrId() {
         return menuMapper.getMenusByHrId(HrUtils.getCurrentHr().getId());
+    }
+
+    public List<Menu> menuTree(){
+        return menuMapper.menuTree();
+    }
+
+    public List<Long> getMenusByrid(Long rid){
+        return menuMapper.getMenusByRid(rid);
     }
 }

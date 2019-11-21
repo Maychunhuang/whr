@@ -1,6 +1,7 @@
 <template>
   <div>
     <div style="text-align: left">
+      <!-- 搜索输入框 -->
       <el-input
         placeholder="输入部门名称搜索部门..."
         style="width: 500px;margin: 0px;padding: 0px;"
@@ -10,6 +11,7 @@
       </el-input>
     </div>
     <div>
+      <!-- 树 -->
       <el-tree
         :props="defaultProps"
         :data="treeData"
@@ -19,6 +21,7 @@
         style="width: 500px;margin-top: 10px"
         :render-content="renderContent">
       </el-tree>
+      <!-- 添加部门的对话框 -->
       <div style="text-align: left">
         <el-dialog
           title="添加部门"
@@ -67,7 +70,9 @@
       }
     },
     mounted: function () {
+      //树加载
       this.treeLoading = true;
+      //获取所有部门，形成树菜单
       this.loadTreeData();
     },
     watch: {
@@ -80,15 +85,19 @@
         if (!value) return true;
         return data.name.indexOf(value) !== -1;
       },
+      //获取所有部门
       loadTreeData(){
         var _this = this;
         this.getRequest("/system/basic/dep/-1").then(resp=> {
           _this.treeLoading = false;
           if (resp && resp.status == 200) {
             _this.treeData = resp.data;
+            console.log(123456)
+            console.log( resp.data)
           }
         })
       },
+      //添加节点
       setDataToTree(treeData,pId,respData){
         for(var i=0;i<treeData.length;i++) {
           var td = treeData[i];
@@ -100,10 +109,13 @@
           }
         }
       },
+      //添加部门
       addDep(){
         var _this = this;
+        //对话框是否可见
         this.dialogVisible = false;
         this.treeLoading = true;
+        //发送请求
         this.postRequest("/system/basic/dep", {
           name: this.depName,
           parentId: this.pDep
@@ -112,10 +124,12 @@
           if (resp && resp.status == 200) {
             var respData = resp.data;
             _this.depName = '';
+            //添加节点
             _this.setDataToTree(_this.treeData,_this.pDep,respData.msg)
           }
         })
       },
+      //加载所有部门
       loadAllDeps(){
         var _this = this;
         this.getRequest("/system/basic/deps").then(resp=> {
@@ -124,12 +138,14 @@
           }
         });
       },
+      //展示添加部门视图
       showAddDepView(data, event){
         this.loadAllDeps();
         this.dialogVisible = true;
         this.pDep = data.id;
         event.stopPropagation()
       },
+      //删除部门
       deleteDep(data, event){
         var _this = this;
         if (data.children.length>0) {
@@ -144,6 +160,7 @@
             type: 'warning'
           }).then(() => {
             _this.treeLoading = true;
+            //发送delete请求
             _this.deleteRequest("/system/basic/dep/" + data.id).then(resp=> {
               _this.treeLoading = false;
               if (resp && resp.status == 200) {
@@ -161,6 +178,7 @@
         }
         event.stopPropagation()
       },
+      //删除节点
       deleteLocalDep(treeData,data){
         for(var i=0;i<treeData.length;i++) {
           var td = treeData[i];

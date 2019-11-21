@@ -1,8 +1,12 @@
 <template>
   <div>
+    <!-- 容器 -->
     <el-container>
+      <!-- 头部 -->
       <el-header style="padding: 0px;display:flex;justify-content:space-between;align-items: center">
+        <!-- display: inline变成行级元素 -->
         <div style="display: inline">
+          <!-- 输入框 -->
           <el-input
             placeholder="通过员工名搜索员工,记得回车哦..."
             clearable
@@ -23,6 +27,7 @@
           </el-button>
         </div>
         <div style="margin-left: 5px;margin-right: 20px;display: inline">
+          <!-- 导入数据按钮，外面包裹着文件上传组件，里面有请求路径 -->
           <el-upload
             :show-file-list="false"
             accept="application/vnd.ms-excel"
@@ -34,17 +39,21 @@
                                                                                           style="margin-right: 5px"></i>{{fileUploadBtnText}}
             </el-button>
           </el-upload>
+          <!-- 导出数据按钮 -->
           <el-button type="success" size="mini" @click="exportEmps"><i class="fa fa-lg fa-level-down"
                                                                        style="margin-right: 5px"></i>导出数据
           </el-button>
+          <!-- 员工添加按钮 -->
           <el-button type="primary" size="mini" icon="el-icon-plus"
                      @click="showAddEmpView">
             添加员工
           </el-button>
         </div>
       </el-header>
+      <!-- 内容主体 -->
       <el-main style="padding-left: 0px;padding-top: 0px">
         <div>
+          <!-- transition？？？这个标签不熟悉-->
           <transition name="slide-fade">
             <div
               style="margin-bottom: 10px;border: 1px;border-radius: 5px;border-style: solid;padding: 5px 0px 5px 0px;box-sizing:border-box;border-color: #20a0ff"
@@ -138,6 +147,7 @@
               </el-row>
             </div>
           </transition>
+          <!-- 表格 -->
           <el-table
             :data="emps"
             v-loading="tableLoading"
@@ -146,6 +156,7 @@
             @selection-change="handleSelectionChange"
             size="mini"
             style="width: 100%">
+            <!-- 复选框按钮 -->
             <el-table-column
               type="selection"
               align="left"
@@ -274,6 +285,7 @@
               prop="tiptopDegree"
               label="最高学历">
             </el-table-column>
+            <!-- 操作这一列，被固定住了（冻结了） -->
             <el-table-column
               fixed="right"
               label="操作"
@@ -291,10 +303,13 @@
               </template>
             </el-table-column>
           </el-table>
+          <!-- 批量删除 及 分页导航 -->
           <div style="display: flex;justify-content: space-between;margin: 2px">
+            <!-- 批量删除按钮 -->
             <el-button type="danger" size="mini" v-if="emps.length>0" :disabled="multipleSelection.length==0"
                        @click="deleteManyEmps">批量删除
             </el-button>
+            <!-- 分页 -->
             <el-pagination
               background
               :page-size="10"
@@ -306,15 +321,19 @@
           </div>
         </div>
       </el-main>
-    </el-container>
+    </el-container>  
+    <!-- 容器部分结束 -->
+    <!-- 表单：点击添加员工按钮后，会出来这个视图进行信息填写，然后添加员工 -->
     <el-form :model="emp" :rules="rules" ref="addEmpForm" style="margin: 0px;padding: 0px;">
       <div style="text-align: left">
+        <!-- 对话框 -->
         <el-dialog
           :title="dialogTitle"
           style="padding: 0px;"
           :close-on-click-modal="false"
           :visible.sync="dialogVisible"
           width="77%">
+          <!-- 每行四列 -->
           <el-row>
             <el-col :span="6">
               <div>
@@ -588,9 +607,9 @@
             </el-col>
           </el-row>
           <span slot="footer" class="dialog-footer">
-    <el-button size="mini" @click="cancelEidt">取 消</el-button>
-    <el-button size="mini" type="primary" @click="addEmp('addEmpForm')">确 定</el-button>
-  </span>
+            <el-button size="mini" @click="cancelEidt">取 消</el-button>
+            <el-button size="mini" type="primary" @click="addEmp('addEmpForm')">确 定</el-button>
+          </span>
         </el-dialog>
       </div>
     </el-form>
@@ -669,6 +688,7 @@
             message: '必填:身份证号码',
             trigger: 'blur'
           }, {
+            //正则表达式
             pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,
             message: '身份证号码格式不正确',
             trigger: 'blur'
@@ -701,7 +721,9 @@
       };
     },
     mounted: function () {
+      //初始化数据
       this.initData();
+      //加载分页员工
       this.loadEmps();
     },
     methods: {
@@ -720,6 +742,7 @@
         this.fileUploadBtnText = '正在导入';
       },
       exportEmps(){
+        //导出员工信息
         window.open("/employee/basic/exportEmp", "_parent");
       },
       cancelSearch(){
@@ -764,6 +787,7 @@
         }).catch(() => {
         });
       },
+      //删除员工
       doDelete(ids){
         this.tableLoading = true;
         var _this = this;
@@ -776,7 +800,9 @@
           }
         })
       },
+      //文本变化触发事件
       keywordsChange(val){
+        //如果文本为空
         if (val == '') {
           this.loadEmps();
         }
@@ -788,6 +814,7 @@
         this.currentPage = currentChange;
         this.loadEmps();
       },
+      //加载员工，分页
       loadEmps(){
         var _this = this;
         this.tableLoading = true;
@@ -801,6 +828,7 @@
           }
         })
       },
+      //更新员工或添加员工，通过有没有id值判断是更新还是添加操作。
       addEmp(formName){
         var _this = this;
         this.$refs[formName].validate((valid) => {
@@ -896,6 +924,7 @@
         delete this.emp.notWorkDate;
         this.dialogVisible = true;
       },
+      //展示添加员工的视图
       showAddEmpView(){
         this.dialogTitle = "添加员工";
         this.dialogVisible = true;

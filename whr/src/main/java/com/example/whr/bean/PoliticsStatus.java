@@ -1,7 +1,7 @@
 package com.example.whr.bean;
 
 /**
- * Created by sang on 2018/1/13.
+ * 政治面貌
  */
 public class PoliticsStatus {
     private Long id;

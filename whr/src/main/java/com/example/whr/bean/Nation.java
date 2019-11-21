@@ -1,7 +1,7 @@
 package com.example.whr.bean;
 
 /**
- * Created by sang on 2018/1/12.
+ * 名族
  */
 public class Nation {
     private Long id;

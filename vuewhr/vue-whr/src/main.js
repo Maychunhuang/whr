@@ -15,12 +15,14 @@ import {initMenu} from './utils/utils'
 import 'font-awesome/css/font-awesome.min.css'
 import './utils/filter_utils'
 
+//prototype这个属性是干嘛的？
 Vue.prototype.getRequest = getRequest
 Vue.prototype.postRequest = postRequest
 Vue.prototype.putRequest = putRequest
 Vue.prototype.deleteRequest = deleteRequest
 Vue.prototype.isNotNullORBlank = isNotNullORBlank
 
+//不知道这是什么意思？
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 

@@ -5,10 +5,12 @@ import com.example.whr.dao.DepartmentMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class DepartmentService {
     @Autowired
     private DepartmentMapper departmentMapper;

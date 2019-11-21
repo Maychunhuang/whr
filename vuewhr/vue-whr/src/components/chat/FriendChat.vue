@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-container>
+      <!-- 左侧：朋友列表 -->
       <el-aside width="160px">
         <div
           class="friendListDiv"
@@ -16,8 +17,10 @@
         </div>
         <div sytle="background-color:#20a0ff;height:1px;width:160px"></div>
       </el-aside>
+      <!-- 右侧：聊天框 -->
       <el-main style="padding-top:0px;padding-bottom:0px">
         <div class="chatDiv" ref="chatDiv" id="chatDiv">
+          <!-- 标题 -->
           <p v-show="currentFriend.name">
             与
             <el-tag
@@ -32,13 +35,15 @@
               style="display:flex;justify-content:flex-start;align-items:center;box-sizing:border-box"
               v-if="msg.from == currentFriend.username"
             >
+            <!-- 正在聊天的对象的头像 -->
               <img :src="currentFriend.userface" class="userfaceImg" />
+              <!-- 显示聊天内容 -->
               <div
                 style="display:inline-flex;border-style:solid;border-width:1px;border-color:#20a0ff;
                     border-radius:5px;padding:5px 8px 5px 8px"
               >{{msg.msg}}</div>
             </div>
-            <!-- 发出去的消息 -->
+            <!-- 发出去的消息-->
             <div
               v-if="msg.from != currentFriend.username"
               style="display: flex;justify-content: flex-end;align-items: center;box-sizing: border-box;"
@@ -50,7 +55,9 @@
             </div>
           </template>
         </div>
+        <!-- 输入聊天内容 -->
         <div style="text-align:left;margin-top:10px">
+          <!-- 输入框 -->
           <el-input
             v-model="msg"
             placeholder="请输入内容"
@@ -59,6 +66,7 @@
             type="textarea"
             autosize
           ></el-input>
+          <!-- 发送按钮 ：与之聊天对象的用户id不能为空-->
           <el-button
             :disabled="!currentFriend.id"
             size="small"
@@ -105,11 +113,12 @@ export default {
   },
   methods: {
     sendMsg() {
-      //发送消息
+      //发送消息  oldMsg应该是一个数组，集合对象
       var oldMsg = window.localStorage.getItem(
         this.currentUser.username + "#" + this.currentFriend.username
       );
       if (oldMsg == null) {
+        //将oldMsg定义为数组
         oldMsg = [];
         oldMsg.push({ msg: this.msg, from: this.$store.state.user.username });
         window.localStorage.setItem(
@@ -117,6 +126,7 @@ export default {
           JSON.stringify(oldMsg)
         );
       } else {
+        //将字符串转为对象
         var oldMsgJson = JSON.parse(oldMsg);
         oldMsgJson.push({
           msg: this.msg,
@@ -127,8 +137,9 @@ export default {
           JSON.stringify(oldMsgJson)
         );
       }
+      //给后端发送请求
       this.$store.state.stomp.send(
-        "/ws/chat/",
+        "/ws/chat",
         {},
         this.msg + ";" + this.currentFriend.username
       );
@@ -136,7 +147,7 @@ export default {
       this.updateChatDiv();
     },
     updateChatDiv() {
-      //更新聊天框 ？？？
+      //更新聊天框 ？？？ 更新消息列表
       var oldMsg = window.localStorage.getItem(
         this.currentUser.username + "#" + this.currentFriend.username
       );

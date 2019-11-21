@@ -17,8 +17,10 @@ export const initMenu = (router,store) => {
     if(store.state.routes.length > 0){
         return
     }
+    //发送get请求
     getRequest('/config/sysmenu').then(resp=>{
         if(resp && resp.status == 200){
+            //获取所有菜单，配置好相应的路由和组件
             var fmtRoutes = formatRoutes(resp.data)
             router.addRoutes(fmtRoutes)
             store.commit('initMenu',fmtRoutes)
@@ -27,7 +29,7 @@ export const initMenu = (router,store) => {
     })
 }
 
-
+//菜单路由跳转核心
 export const formatRoutes = (routes) => {
     let fmRoutes = []
     routes.forEach(router=>{
@@ -43,10 +45,21 @@ export const formatRoutes = (routes) => {
             children = formatRoutes(children)
         }
         let fmRouter = {
+            //菜单路由跳转
             path:path,
-            component(resolver){
+            component(resolve){
                 if(component.startsWith('Home')){
-                    require(['../components/'+component+'.vue'],resolver)
+                    require(['../components/'+component+'.vue'],resolve)
+                }else if(component.startsWith('Emp')){
+                    require(['../components/emp/' + component + '.vue'], resolve)
+                }else if (component.startsWith("Per")) {
+                    require(['../components/personnel/' + component + '.vue'], resolve)
+                } else if (component.startsWith("Sal")) {
+                    require(['../components/salary/' + component + '.vue'], resolve)
+                } else if (component.startsWith("Sta")) {
+                    require(['../components/statistics/' + component + '.vue'], resolve)
+                } else if (component.startsWith("Sys")) {
+                    require(['../components/system/' + component + '.vue'], resolve)
                 }
             },
             name:name,

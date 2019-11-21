@@ -118,4 +118,9 @@ public class HrService implements UserDetailsService{
     public List<Hr> getAllHr(){
         return hrMapper.getAllHr(null);
     }
+
+    public int updateHrRoles(Long hrId,Long[] rids){
+        deleteRoleByHrId(hrId);
+        return addRolesForHr(hrId,rids);
+    }
 }

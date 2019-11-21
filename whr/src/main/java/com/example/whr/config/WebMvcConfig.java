@@ -18,6 +18,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addConverter(new DateConverter());
     }
 
+    /**
+     * 注册一个线程池
+     * @return
+     */
     @Bean
     public ExecutorService executorService() {
         return Executors.newCachedThreadPool();

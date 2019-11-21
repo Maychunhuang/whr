@@ -77,6 +77,7 @@
                  @click="deleteMany">批量删除
       </el-button>
     </div>
+    <!-- 编辑对话框 -->
     <div style="text-align: left">
       <el-dialog
         :title="state=='position'?'编辑职位名称':'编辑职称'"
@@ -103,9 +104,11 @@
 <script>
   export default{
     mounted: function () {
+      //加载表格数据
       this.loadTableData();
     },
     methods: {
+      //更新职位或职称
       updatePosNameExec(){
         if (!this.isNotNullORBlank(this.updatePosName)) {
           this.$message.warning(this.state == 'position' ? '职位名称不能为空!' : '职称名称不能为空!');
@@ -118,11 +121,12 @@
           if (resp && resp.status == 200) {
             this.dialogVisible = false;
             var data = resp.data;
-            
+            //再次调用，获取所有的职位或职称
             _this.loadTableData();
           }
         })
       },
+      //批量删除
       deleteMany(){
         var _this = this;
         this.$confirm('删除' + this.multipleSelection.length + '条数据, 是否继续?', '提示', {
@@ -135,6 +139,7 @@
           multipleSelection.forEach(row=> {
             ids = ids + row.id + ',';
           })
+          //确定按钮-->批量删除
           _this.doDelete(ids);
         }).catch(() => {
           this.$message({
@@ -143,11 +148,14 @@
           });
         });
       },
+      //添加职位或职称
       addPosition(){
+        //验证职位或职称是否为空
         if (!this.isNotNullORBlank(this.positionName)) {
           this.$message.warning(this.state == 'position' ? '职位名称不能为空!' : '职称名称不能为空!');
           return;
         }
+        //验证是否选择了职称级别
         if (this.state == 'jobtitle') {
           if (!this.isNotNullORBlank(this.titleLevel)) {
             this.$message.warning('请选择职称级别!');
@@ -156,6 +164,7 @@
         }
         var _this = this;
         this.loading = true;
+        //发送post请求，添加职位或职称，参数：url,json对象
         this.postRequest(this.state == 'position' ? "/system/basic/position" : "/system/basic/joblevel", {
           name: this.positionName,
           titleLevel: this.titleLevel
@@ -170,15 +179,20 @@
           }
         });
       },
+      //下拉框选择的触发事件
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
+      /**
+       * 触发编辑事件
+       */
       handleEdit(index, row){
         this.updatePosName = row.name;
         this.updatePosId = row.id;
         this.updateTitleLevel=row.titleLevel;
         this.dialogVisible = true;
       },
+      //触发删除事件
       handleDelete(index, row){
         var _this = this;
         this.$confirm('删除[' + row.name + '], 是否继续?', '提示', {
@@ -186,6 +200,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+          //添加确定案件，就调用删除按钮
           _this.doDelete(row.id);
         }).catch(() => {
           this.$message({
@@ -194,6 +209,7 @@
           });
         });
       },
+      //删除职位或职称
       doDelete(ids){
         var _this = this;
         _this.loading = true;
@@ -205,9 +221,11 @@
           }
         })
       },
+      //加载表格数据
       loadTableData(){
         var _this = this;
         this.loading = true;
+        //发送get请求，有判断
         this.getRequest(this.state == 'position' ? "/system/basic/positions" : "/system/basic/joblevels").then(resp=> {
           _this.loading = false;
           if (resp && resp.status == 200) {

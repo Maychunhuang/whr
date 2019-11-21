@@ -4,7 +4,7 @@
     <el-container>
       <el-header style="text-align: left;padding-left: 0px">
         <el-button type="success" size="mini" plain icon="el-icon-success" @click="allRead">全部标记为已读</el-button>
-        <el-button type="primary" size="mini" plain v-if="isAdmin" @clikc="dialogVisible = true">
+        <el-button type="primary" size="mini" plain v-if="isAdmin" @click="dialogVisible = true">
           <i class="fa fa-send" style="margin-right:15px"></i>发送系统通知
         </el-button>
       </el-header>
@@ -64,7 +64,7 @@
         <el-row style="margin-top: 10px;padding-right: 10px">
           <el-col :offset="18">
             <el-button type="default" size="mini" @click="cancleSend">取消</el-button>
-            <el-button type="primary" size="mini" @clikc="sendNFMsg">
+            <el-button type="primary" size="mini" @click="sendNFMsg">
               <i class="fa fa-send" style="margin-right: 15px"></i>发送
             </el-button>
           </el-col>
@@ -145,7 +145,7 @@ export default {
       this.dialogLoading = true;
       var _this = this;
       this.postRequest("/chat/nf", {
-        messge: this.message,
+        message: this.message,
         title: this.title
       }).then(resp => {
         _this.dialogLoading = false;

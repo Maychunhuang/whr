@@ -3,7 +3,7 @@ package com.example.whr.bean;
 import java.sql.Timestamp;
 
 /**
- * Created by sang on 2018/1/10.
+ * 岗位
  */
 public class Position {
     private Long id;

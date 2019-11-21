@@ -347,6 +347,7 @@
         var _this = this;
         if (this.index == 7) {
           if(this.salary.createDate&&this.salary.basicSalary&&this.salary.trafficSalary&&this.salary.lunchSalary&&this.salary.bonus&&this.salary.pensionBase&&this.salary.pensionPer&&this.salary.medicalBase&&this.salary.medicalPer&&this.salary.accumulationFundBase&&this.salary.accumulationFundPer){
+          //有id则更新，无id则添加
           if (this.salary.id) {//更新
             _this.tableLoading = true;
             this.putRequest("/salary/sob/salary", this.salary).then(resp=> {

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 添加角色 -->
     <div style="text-align: left" v-loading="loading">
       <el-input placeholder="请输入角色英文名称..."
                 size="mini"
@@ -16,11 +17,13 @@
       <el-button type="primary" size="mini" style="margin-left: 5px" @click="addNewRole">添加角色</el-button>
     </div>
     <div style="margin-top: 10px;text-align: left">
+      <!-- Collapse 折叠面板 -->
       <el-collapse v-model="activeColItem" accordion style="width: 500px;" @change="collapseChange">
         <el-collapse-item v-for="(item,index) in roles" :title="item.nameZh" :name="item.id" :key="item.name">
           <el-card class="box-card">
             <div slot="header">
               <span>可访问的资源</span>
+              <!-- 删除角色 -->
               <el-button type="text"
                          style="color: #f6061b;margin: 0px;float: right; padding: 3px 0;width: 15px;height:15px"
                          icon="el-icon-delete" @click="deleteRole(item.id,item.nameZh)"></el-button>
@@ -39,6 +42,7 @@
             </div>
             <div style="display: flex;justify-content: flex-end;margin-right: 10px">
               <el-button size="mini" @click="cancelUpdateRoleMenu">取消修改</el-button>
+              <!-- 修改角色 -->
               <el-button type="primary" size="mini" @click="updateRoleMenu(index)">确认修改</el-button>
             </div>
           </el-card>
@@ -52,9 +56,11 @@
   export default{
     mounted: function () {
       this.loading = true;
+      //初始化角色
       this.initRoles();
     },
     methods: {
+      //删除角色
       deleteRole(rid, rname){
         var _this = this;
         this.$confirm('删除角色[' + rname + '], 是否继续?', '提示', {
@@ -77,6 +83,7 @@
           });
         });
       },
+      //添加新角色
       addNewRole(){
         if (isNotNullORBlank(this.newRole, this.newRoleZh)) {
           this.loading = true;
@@ -101,6 +108,7 @@
       updateRoleMenu(index){
         var checkedKeys = this.$refs.tree[index].getCheckedKeys(true);
         var _this = this;
+        //修改菜单角色
         this.putRequest("/system/basic/updateMenuRole", {
           rid: this.activeColItem,
           mids: checkedKeys
@@ -115,6 +123,7 @@
           return;
         }
         var _this = this;
+        //获取菜单树
         this.getRequest("/system/basic/menuTree/" + activeName).then(resp=> {
           if (resp && resp.status == 200) {
             var data = resp.data;
@@ -126,6 +135,7 @@
       handleCheckChange(data, checked, indeterminate) {
 //        console.log(data,checked,indeterminate)
       },
+      //获取所有角色
       initRoles(){
         var _this = this;
         this.getRequest("/system/basic/roles").then(resp=> {

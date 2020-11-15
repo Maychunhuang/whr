@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import javax.servlet.ServletException;
@@ -43,20 +44,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     UrlAccessDecisionManager urlAccessDecisionManager;
     @Autowired
     AuthenticationAccessDeniedHandler deniedHandler;
+    @Autowired
+    VerifyCodeFilter verifyCodeFilter;
 
+    /**
+     * 用户信息配置
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(hrService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 
+    /**
+     * web安全配置
+     * 1.可配置过滤资源，无需检查是否已经登录
+     * @param web
+     * @throws Exception
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/index.html", "/static/**", "/login_p", "/favicon.ico");
+        web.ignoring().antMatchers("/index.html", "/static/**", "/login_p", "/favicon.ico","/vercode/**");
     }
 
+    /**
+     * 登录配置
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.addFilterBefore(verifyCodeFilter, UsernamePasswordAuthenticationFilter.class);
         http.authorizeRequests()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
@@ -130,6 +150,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .permitAll()
                 .and().csrf().disable()
-                .exceptionHandling().accessDeniedHandler(deniedHandler);
+                .exceptionHandling().accessDeniedHandler(deniedHandler)
+                .and()
+                .sessionManagement()
+                .maximumSessions(1);
     }
 }

@@ -140,4 +140,12 @@ public class Hr implements UserDetails {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+    public boolean equals(Object rhs) {
+        return rhs instanceof Hr ? this.username.equals(((Hr)rhs).username) : false;
+    }
+
+    public int hashCode() {
+        return this.username.hashCode();
+    }
 }
